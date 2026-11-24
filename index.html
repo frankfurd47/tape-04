@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tape_01</title>
+  <title>tape_04</title>
   <style>
     * {
       margin: 0;
@@ -36,15 +36,13 @@
       font-family: monospace;
       font-size: 0.85rem;
       letter-spacing: 2px;
-      display: none;
       pointer-events: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- REPLACE 'YOUR-VIDEO.mp4' WITH YOUR EXACT UPLOADED MP4 FILENAME -->
-  <video id="vhsVideo" src="97d15b22-dcd9-4a7c-9424-c776805da5c5.mp4" playsinline></video>
+  <video id="vhsVideo" src="97d15b22-dcd9-4a7c-9424-c776805da5c5.mp4" autoplay muted loop playsinline></video>
   <div id="soundPrompt">[ CLICK ANYWHERE FOR AUDIO ]</div>
 
   <script>
@@ -58,16 +56,6 @@
       prompt.style.display = 'none';
     }
 
-    // Try autoplaying WITH sound first
-    video.muted = false;
-    video.play().catch(() => {
-      // Fallback if the browser blocks unmuted autoplay
-      video.muted = true;
-      video.play();
-      prompt.style.display = 'block';
-    });
-
-    // Unmute immediately when the viewer clicks or presses any key
     document.addEventListener('click', unmuteVideo, { once: true });
     document.addEventListener('keydown', unmuteVideo, { once: true });
   </script>
