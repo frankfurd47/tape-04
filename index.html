@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>tape_01</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background-color: #000000;
       height: 100vh;
@@ -19,17 +14,13 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      cursor: none; /* Hides the mouse cursor for extra immersion */
+      cursor: none;
     }
-
     video {
       max-width: 90vw;
       max-height: 90vh;
       outline: none;
-      /* Subtle CRT glow */
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
     }
-
     #overlay {
       position: fixed;
       inset: 0;
@@ -42,36 +33,38 @@
       align-items: center;
       cursor: pointer;
       z-index: 10;
+      text-align: center;
+      padding: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Click-to-start overlay so audio plays reliably -->
   <div id="overlay">[ CLICK TO PLAY TAPE ]</div>
 
-  <!-- Make sure your uploaded video file is named tape.mp4 -->
-  <video id="vhsVideo" playsinline>
-    <source src="tape.mp4" type="video/mp4">
-  </video>
+  <video id="vhsVideo" src="tape.mp4" preload="auto" playsinline></video>
 
   <script>
     const video = document.getElementById('vhsVideo');
     const overlay = document.getElementById('overlay');
 
-    // Start video with sound when the user clicks anywhere
     overlay.addEventListener('click', () => {
-      overlay.style.display = 'none';
-      video.play();
+      video.play().then(() => {
+        overlay.style.display = 'none';
+      }).catch((err) => {
+        overlay.style.color = '#ff3333';
+        overlay.textContent = 'ERROR: ' + err.message;
+      });
     });
 
-    // Triggered when the video finishes
-    video.addEventListener('ended', () => {
-      // 1. Attempt to close the browser tab
-      window.close();
+    video.addEventListener('error', () => {
+      overlay.style.display = 'flex';
+      overlay.style.color = '#ff3333';
+      overlay.textContent = 'TAPE NOT FOUND OR UNSUPPORTED FORMAT (CHECK FILENAME: tape.mp4)';
+    });
 
-      // 2. Fallback if browser security blocks window.close():
-      // Instantly wipe the page to pitch black and redirect to a blank page
+    video.addEventListener('ended', () => {
+      window.close();
       document.body.innerHTML = '';
       window.location.replace('about:blank');
     });
