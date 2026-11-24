@@ -43,8 +43,8 @@
 </head>
 <body>
 
-  <!-- REPLACE 'YOUR-EXACT-FILENAME.mp4' WITH YOUR VIDEO'S ACTUAL NAME -->
-  <video id="vhsVideo" src="YOUR-EXACT-FILENAME.mp4" playsinline></video>
+  <!-- REPLACE 'YOUR-VIDEO.mp4' WITH YOUR EXACT UPLOADED MP4 FILENAME -->
+  <video id="vhsVideo" src="97d15b22-dcd9-4a7c-9424-c776805da5c5.mp4" playsinline></video>
   <div id="soundPrompt">[ CLICK ANYWHERE FOR AUDIO ]</div>
 
   <script>
@@ -58,16 +58,16 @@
       prompt.style.display = 'none';
     }
 
-    // 1. Try playing WITH sound right away
+    // Try autoplaying WITH sound first
     video.muted = false;
     video.play().catch(() => {
-      // 2. If the browser blocks unmuted autoplay, start muted and show subtle prompt
+      // Fallback if the browser blocks unmuted autoplay
       video.muted = true;
       video.play();
       prompt.style.display = 'block';
     });
 
-    // Unmute on any click or key press
+    // Unmute immediately when the viewer clicks or presses any key
     document.addEventListener('click', unmuteVideo, { once: true });
     document.addEventListener('keydown', unmuteVideo, { once: true });
   </script>
