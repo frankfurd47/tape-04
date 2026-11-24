@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tape_01</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      background-color: #000000;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      cursor: none; /* Hides the mouse cursor for extra immersion */
+    }
+
+    video {
+      max-width: 90vw;
+      max-height: 90vh;
+      outline: none;
+      /* Subtle CRT glow */
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      color: #33ff33;
+      font-family: monospace;
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Click-to-start overlay so audio plays reliably -->
+  <div id="overlay">[ CLICK TO PLAY TAPE ]</div>
+
+  <!-- Make sure your uploaded video file is named tape.mp4 -->
+  <video id="vhsVideo" playsinline>
+    <source src="tape.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    const video = document.getElementById('vhsVideo');
+    const overlay = document.getElementById('overlay');
+
+    // Start video with sound when the user clicks anywhere
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+      video.play();
+    });
+
+    // Triggered when the video finishes
+    video.addEventListener('ended', () => {
+      // 1. Attempt to close the browser tab
+      window.close();
+
+      // 2. Fallback if browser security blocks window.close():
+      // Instantly wipe the page to pitch black and redirect to a blank page
+      document.body.innerHTML = '';
+      window.location.replace('about:blank');
+    });
+  </script>
+
+</body>
+</html>
