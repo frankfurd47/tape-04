@@ -28,27 +28,48 @@
       outline: none;
       box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
     }
+
+    #soundPrompt {
+      position: fixed;
+      bottom: 24px;
+      color: #666666;
+      font-family: monospace;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      display: none;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
 
   <!-- REPLACE 'YOUR-EXACT-FILENAME.mp4' WITH YOUR VIDEO'S ACTUAL NAME -->
-  <video id="vhsVideo" src="97d15b22-dcd9-4a7c-9424-c776805da5c5.mp4" autoplay muted playsinline></video>
+  <video id="vhsVideo" src="YOUR-EXACT-FILENAME.mp4" playsinline></video>
+  <div id="soundPrompt">[ CLICK ANYWHERE FOR AUDIO ]</div>
 
   <script>
     const video = document.getElementById('vhsVideo');
+    const prompt = document.getElementById('soundPrompt');
 
-    // Clicking anywhere on the screen unmutes the audio
-    document.body.addEventListener('click', () => {
-      if (video.muted) {
-        video.muted = false;
-      }
+    function unmuteVideo() {
+      video.muted = false;
+      video.volume = 1.0;
+      video.play();
+      prompt.style.display = 'none';
+    }
+
+    // 1. Try playing WITH sound right away
+    video.muted = false;
+    video.play().catch(() => {
+      // 2. If the browser blocks unmuted autoplay, start muted and show subtle prompt
+      video.muted = true;
+      video.play();
+      prompt.style.display = 'block';
     });
-  </script>
 
-</body>
-</html>
-
+    // Unmute on any click or key press
+    document.addEventListener('click', unmuteVideo, { once: true });
+    document.addEventListener('keydown', unmuteVideo, { once: true });
   </script>
 
 </body>
