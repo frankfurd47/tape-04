@@ -32,13 +32,13 @@
 </head>
 <body>
 
-  <!-- Must include 'muted' for browsers to allow instant autoplay -->
-  <video id="vhsVideo" src="tape.mp4" autoplay muted playsinline></video>
+  <!-- REPLACE 'YOUR-EXACT-FILENAME.mp4' WITH YOUR VIDEO'S ACTUAL NAME -->
+  <video id="vhsVideo" src="97d15b22-dcd9-4a7c-9424-c776805da5c5.mp4" autoplay muted playsinline></video>
 
   <script>
     const video = document.getElementById('vhsVideo');
 
-    // Unmute automatically if the user clicks anywhere on the screen
+    // Clicking anywhere on the screen unmutes the audio
     document.body.addEventListener('click', () => {
       if (video.muted) {
         video.muted = false;
